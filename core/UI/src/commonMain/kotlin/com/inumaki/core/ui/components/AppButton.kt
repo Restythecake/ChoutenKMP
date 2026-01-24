@@ -1,0 +1,45 @@
+package com.inumaki.core.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.unit.dp
+import chouten.core.ui.generated.resources.Res
+import coil3.compose.AsyncImage
+import com.inumaki.core.ui.modifiers.shiningBorder
+
+@Composable
+fun AppButton(iconPath: String, angle: Float, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .width(44.dp)
+            .height(44.dp)
+            .shiningBorder(angle, 22.dp)
+            .clip(RoundedCornerShape(50))
+            .background(Color(23, 23, 26)),
+    ) {
+        AsyncImage(
+            Res.getUri(iconPath),
+            contentDescription = "",
+            colorFilter = ColorFilter.tint(Color(0xffd3d3d3), BlendMode.SrcIn),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .width(20.dp)
+                .aspectRatio(1f)
+                .scale(1.05f)
+                .alpha(0.7f)
+        )
+    }
+}
