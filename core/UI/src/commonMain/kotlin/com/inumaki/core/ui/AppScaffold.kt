@@ -96,8 +96,9 @@ fun AppScaffold(
                     appConfig.featureEntries.forEach { it.register(this, appConfig.navController, appConfig.navScope) }
                 }
                 // Render last fullscreen
-                lastFullscreen.value?.let { renderFullscreen(it) }
+                // lastFullscreen.value?.let { renderFullscreen(it) }
 
+                /*
                 // Render top sheet if any
                 val backStackEntry by appConfig.navController.currentBackStackEntryAsState()
                 val sheetRoute = backStackEntry?.let { entry ->
@@ -106,6 +107,8 @@ fun AppScaffold(
                 }
 
                 sheetRoute?.let { renderSheet(it) { appConfig.navController.popBackStack() } }
+
+                 */
             }
         }
     }

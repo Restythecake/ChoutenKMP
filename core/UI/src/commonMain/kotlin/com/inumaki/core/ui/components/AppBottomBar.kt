@@ -183,11 +183,12 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
     ) {
         Row(
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .padding(start = 24.dp, bottom = 38.dp, end = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            if (circleWidth > 0.dp) {
+            if (circleWidth > 0.5.dp ) {
                 AppImageButton(
                     "https://i.pinimg.com/1200x/7b/1d/dc/7b1ddcab5e7fccfb8a00ca680f4a24c3.jpg",
                     angle,

@@ -1,14 +1,19 @@
 package com.inumaki.core.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -78,10 +83,59 @@ val DefaultShapes = AppShapes(
     large = RoundedCornerShape(16.dp)
 )
 
+data class AppLayout(
+    val contentPadding: PaddingValues,
+    val screenEdgePadding: PaddingValues,
+    val posterSize: DpSize,
+    val iconSize: DpSize,
+    val forceHideLabels: Boolean
+)
+
+private fun layoutForWidth(width: Dp): AppLayout {
+    return when {
+        width < 360.dp -> compactLayout()
+        width < 600.dp -> phoneLayout()
+        else -> tabletLayout()
+    }
+}
+
+private fun compactLayout(): AppLayout {
+    return AppLayout(
+        contentPadding = PaddingValues.Zero,
+        screenEdgePadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 38.dp, top = 44.dp),
+        posterSize = DpSize(90.dp, 128.dp),
+        iconSize = DpSize(32.dp, 32.dp),
+        forceHideLabels = true
+    )
+}
+
+
+private fun phoneLayout(): AppLayout {
+    return AppLayout(
+        contentPadding = PaddingValues.Zero,
+        screenEdgePadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 38.dp, top = 44.dp),
+        posterSize = DpSize(90.dp, 128.dp),
+        iconSize = DpSize(44.dp, 44.dp),
+        forceHideLabels = false
+    )
+}
+
+
+private fun tabletLayout(): AppLayout {
+    return AppLayout(
+        contentPadding = PaddingValues.Zero,
+        screenEdgePadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 38.dp, top = 44.dp),
+        posterSize = DpSize(90.dp, 128.dp),
+        iconSize = DpSize(68.dp, 68.dp),
+        forceHideLabels = false
+    )
+}
+
 // Define CompositionLocals
 val LocalChoutenColors = staticCompositionLocalOf { LightAppColors }
 val LocalChoutenTypography = staticCompositionLocalOf { DefaultTypography }
 val LocalChoutenShapes = staticCompositionLocalOf { DefaultShapes }
+val LocalChoutenLayout = staticCompositionLocalOf<AppLayout> { compactLayout() }
 
 // ChoutenTheme provider function
 @Composable
@@ -91,12 +145,18 @@ fun AppTheme(
     shapes: AppShapes = DefaultShapes,
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(
-        LocalChoutenColors provides colors,
-        LocalChoutenTypography provides typography,
-        LocalChoutenShapes provides shapes,
-        content = content
-    )
+    BoxWithConstraints {
+        val layout = remember(maxWidth) { layoutForWidth(maxWidth) }
+
+        CompositionLocalProvider(
+            LocalChoutenColors provides colors,
+            LocalChoutenTypography provides typography,
+            LocalChoutenShapes provides shapes,
+            LocalChoutenLayout provides layout
+        ) {
+            content()
+        }
+    }
 }
 
 object AppTheme {
@@ -108,4 +168,7 @@ object AppTheme {
 
     val shapes: AppShapes
         @Composable get() = LocalChoutenShapes.current
+
+    val layout: AppLayout
+        @Composable get() = LocalChoutenLayout.current
 }

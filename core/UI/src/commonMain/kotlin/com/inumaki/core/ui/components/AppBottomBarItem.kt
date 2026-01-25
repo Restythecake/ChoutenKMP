@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chouten.core.ui.generated.resources.Res
 import coil3.compose.AsyncImage
+import com.inumaki.core.ui.theme.AppTheme
 
 @Composable
 fun AppBottomBarItem(
@@ -105,12 +106,14 @@ fun AppBottomBarItem(
                 .alpha(if (isSelected) 1.0f else 0.7f)
         )
 
-        Text(
-            title,
-            fontSize = 10.sp,
-            modifier = Modifier
-                .alpha(labelAlpha * if (isSelected) 1f else 0.7f)
-                .scale(labelScale)
-        )
+        if (!AppTheme.layout.forceHideLabels) {
+            Text(
+                title,
+                fontSize = 10.sp,
+                modifier = Modifier
+                    .alpha(labelAlpha * if (isSelected) 1f else 0.7f)
+                    .scale(labelScale)
+            )
+        }
     }
 }
