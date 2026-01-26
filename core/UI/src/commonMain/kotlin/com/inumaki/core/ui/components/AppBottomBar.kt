@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
@@ -70,7 +71,7 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
     var searching by remember { mutableStateOf(false) }
     var isDragging by remember { mutableStateOf(false) }
     var showProfile by remember { mutableStateOf(false) }
-    val barHeight = 48.dp
+    val barHeight = AppTheme.layout.bottomBarItemSize.height
     val circleSize = 42.dp
 
     val transition = updateTransition(
@@ -133,7 +134,7 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
     }
 
 
-    val itemWidth = 68.dp
+    val itemWidth = AppTheme.layout.bottomBarItemSize.width
 
     fun finalizeIndex() {
         val rawIndex = (selectedIndex * itemWidth + dragOffset) / itemWidth
@@ -184,7 +185,11 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(start = 24.dp, bottom = 38.dp, end = 24.dp),
+                .padding(
+                    start = AppTheme.layout.screenEdgePadding.calculateLeftPadding(LayoutDirection.Ltr),
+                    bottom = AppTheme.layout.screenEdgePadding.calculateBottomPadding(),
+                    end = AppTheme.layout.screenEdgePadding.calculateRightPadding(LayoutDirection.Ltr)
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {

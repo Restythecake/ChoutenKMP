@@ -69,6 +69,7 @@ kotlin {
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation("org.jetbrains.compose.desktop:desktop-jvm:1.10.0+dev3470")
             implementation(libs.kotlinx.coroutinesSwing)
 
             implementation("io.ktor:ktor-client-java:3.4.0")

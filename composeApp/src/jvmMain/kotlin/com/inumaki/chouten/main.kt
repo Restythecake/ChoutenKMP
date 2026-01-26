@@ -11,6 +11,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 
 fun main() = application {
+    System.setProperty("skiko.render.backend", "wayland")
     val headingProvider = remember { GyroProvider() }
     Window(
         onCloseRequest = ::exitApplication,

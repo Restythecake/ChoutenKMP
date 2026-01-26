@@ -99,17 +99,17 @@ fun AppBottomBarItem(
             contentDescription = title,
             colorFilter = ColorFilter.tint(Color(0xffd3d3d3), BlendMode.SrcIn),
             modifier = Modifier
-                .offset(y = iconOffsetY)
+                .offset(y = if (AppTheme.layout.forceHideLabels) 8.dp else iconOffsetY)
                 .width(24.dp)
                 .aspectRatio(1f)
-                .scale(iconScale)
+                .scale(if (AppTheme.layout.forceHideLabels) 0.9f else iconScale)
                 .alpha(if (isSelected) 1.0f else 0.7f)
         )
 
         if (!AppTheme.layout.forceHideLabels) {
             Text(
                 title,
-                fontSize = 10.sp,
+                style = AppTheme.typography.caption2,
                 modifier = Modifier
                     .alpha(labelAlpha * if (isSelected) 1f else 0.7f)
                     .scale(labelScale)

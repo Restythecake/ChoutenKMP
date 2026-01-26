@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -47,28 +48,77 @@ val DarkAppColors = AppColors(
 
 // Define typography
 data class AppTypography(
-    val title: TextStyle,
+    val largeTitle: TextStyle,
+    val title1: TextStyle,
+    val title2: TextStyle,
+    val title3: TextStyle,
+    val headline: TextStyle,
     val body: TextStyle,
-    val caption: TextStyle
+    val callout: TextStyle,
+    val subheadline: TextStyle,
+    val footnote: TextStyle,
+    val caption1: TextStyle,
+    val caption2: TextStyle
 )
 
 val DefaultTypography = AppTypography(
-    title = TextStyle(
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily.Default
+    largeTitle = TextStyle(
+        fontSize = 34.sp,
+        lineHeight = 41.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    title1 = TextStyle(
+        fontSize = 28.sp,
+        lineHeight = 34.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    title2 = TextStyle(
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    title3 = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 25.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    headline = TextStyle(
+        fontSize = 17.sp,
+        lineHeight = 22.sp,
+        fontWeight = FontWeight.SemiBold
     ),
     body = TextStyle(
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Normal,
-        fontFamily = FontFamily.Default
+        fontSize = 17.sp,
+        lineHeight = 22.sp,
+        fontWeight = FontWeight.Normal
     ),
-    caption = TextStyle(
+    callout = TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 21.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    subheadline = TextStyle(
+        fontSize = 15.sp,
+        lineHeight = 20.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    footnote = TextStyle(
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    caption1 = TextStyle(
         fontSize = 12.sp,
-        fontWeight = FontWeight.Light,
-        fontFamily = FontFamily.Default
+        lineHeight = 16.sp,
+        fontWeight = FontWeight.Normal
+    ),
+    caption2 = TextStyle(
+        fontSize = 11.sp,
+        lineHeight = 13.sp,
+        fontWeight = FontWeight.Normal
     )
 )
+
 
 // Define shapes
 data class AppShapes(
@@ -88,7 +138,9 @@ data class AppLayout(
     val screenEdgePadding: PaddingValues,
     val posterSize: DpSize,
     val iconSize: DpSize,
-    val forceHideLabels: Boolean
+    val forceHideLabels: Boolean,
+    val bottomBarItemSize: DpSize,
+    val bottomBarLocation: Alignment
 )
 
 private fun layoutForWidth(width: Dp): AppLayout {
@@ -101,33 +153,39 @@ private fun layoutForWidth(width: Dp): AppLayout {
 
 private fun compactLayout(): AppLayout {
     return AppLayout(
-        contentPadding = PaddingValues.Zero,
+        contentPadding = PaddingValues(horizontal = 20.dp),
         screenEdgePadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 38.dp, top = 44.dp),
         posterSize = DpSize(90.dp, 128.dp),
         iconSize = DpSize(32.dp, 32.dp),
-        forceHideLabels = true
+        forceHideLabels = true,
+        bottomBarItemSize = DpSize(54.dp, 46.dp),
+        bottomBarLocation = Alignment.BottomCenter
     )
 }
 
 
 private fun phoneLayout(): AppLayout {
     return AppLayout(
-        contentPadding = PaddingValues.Zero,
+        contentPadding = PaddingValues(horizontal = 24.dp),
         screenEdgePadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 38.dp, top = 44.dp),
         posterSize = DpSize(90.dp, 128.dp),
         iconSize = DpSize(44.dp, 44.dp),
-        forceHideLabels = false
+        forceHideLabels = false,
+        bottomBarItemSize = DpSize(68.dp, 48.dp),
+        bottomBarLocation = Alignment.BottomCenter
     )
 }
 
 
 private fun tabletLayout(): AppLayout {
     return AppLayout(
-        contentPadding = PaddingValues.Zero,
+        contentPadding = PaddingValues(horizontal = 80.dp),
         screenEdgePadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 38.dp, top = 44.dp),
-        posterSize = DpSize(90.dp, 128.dp),
-        iconSize = DpSize(68.dp, 68.dp),
-        forceHideLabels = false
+        posterSize = DpSize(140.dp, 196.dp),
+        iconSize = DpSize(52.dp, 52.dp),
+        forceHideLabels = false,
+        bottomBarItemSize = DpSize(68.dp, 48.dp),
+        bottomBarLocation = Alignment.CenterStart
     )
 }
 
@@ -135,7 +193,7 @@ private fun tabletLayout(): AppLayout {
 val LocalChoutenColors = staticCompositionLocalOf { LightAppColors }
 val LocalChoutenTypography = staticCompositionLocalOf { DefaultTypography }
 val LocalChoutenShapes = staticCompositionLocalOf { DefaultShapes }
-val LocalChoutenLayout = staticCompositionLocalOf<AppLayout> { compactLayout() }
+val LocalChoutenLayout = staticCompositionLocalOf { compactLayout() }
 
 // ChoutenTheme provider function
 @Composable

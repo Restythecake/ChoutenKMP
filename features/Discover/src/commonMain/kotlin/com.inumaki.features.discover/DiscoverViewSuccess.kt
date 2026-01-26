@@ -3,6 +3,7 @@ package com.inumaki.features.discover
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.inumaki.core.ui.components.PosterCard
+import com.inumaki.core.ui.theme.AppTheme
 import com.inumaki.features.discover.components.CarouselCard
 import com.inumaki.features.discover.model.DiscoverList
 
@@ -33,17 +35,21 @@ fun DiscoverViewSuccess(items: List<DiscoverList>, angle: Float) {
                 CarouselCard(items[0].list[0], angle)
             }
             items(items.drop(1)) { list ->
-                Text(
-                    list.title,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .padding(start = 24.dp, bottom = 12.dp)
-                )
+                Row {
+                    Text(
+                        list.title,
+                        style = AppTheme.typography.headline,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier
+                            .padding(AppTheme.layout.contentPadding)
+                            .padding(bottom = 12.dp)
+                    )
+                }
                 LazyRow(
                     modifier = Modifier
                         .padding(bottom = 20.dp)
                         .fillMaxWidth(),
-                    contentPadding = PaddingValues(horizontal = 24.dp),
+                    contentPadding = AppTheme.layout.contentPadding,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(list.list) { item ->

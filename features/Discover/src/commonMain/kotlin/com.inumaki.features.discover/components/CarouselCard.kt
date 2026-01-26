@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,23 +28,24 @@ import coil3.compose.AsyncImage
 import com.inumaki.core.ui.components.AppButton
 import com.inumaki.core.ui.modifiers.shiningBorder
 import com.inumaki.core.ui.model.PosterData
+import com.inumaki.core.ui.theme.AppTheme
 
 @Composable
 fun CarouselCard(data: PosterData, angle: Float) {
     Box(
         modifier = Modifier
             .padding(40.dp)
+            .widthIn(max = 460.dp)
             .fillMaxWidth()
-            .aspectRatio(0.65f)
             .shiningBorder(angle, 22.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(Color(0xff171717)),
+            .background(AppTheme.colors.container),
         contentAlignment = Alignment.TopEnd
     ) {
         AsyncImage(
             model = data.poster,
             contentDescription = null,
-            contentScale = ContentScale.FillHeight,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(0.65f)
@@ -49,12 +53,12 @@ fun CarouselCard(data: PosterData, angle: Float) {
 
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .matchParentSize()
                 .background(
                     Brush.linearGradient(
                         listOf(
-                            Color(0x0017171A),
-                            Color(0xff17171A)
+                            Color(0x00FFFFFF and AppTheme.colors.container.toArgb()),
+                            AppTheme.colors.container
                         )
                     )
                 )
@@ -67,26 +71,22 @@ fun CarouselCard(data: PosterData, angle: Float) {
         ) {
             Text(
                 data.title.secondary ?: "",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                lineHeight = 18.sp,
+                style = AppTheme.typography.callout,
                 maxLines = 2,
                 modifier = Modifier.alpha(0.7f)
             )
 
             Text(
                 data.title.primary,
-                fontSize = 20.sp,
+                style = AppTheme.typography.title3,
                 fontWeight = FontWeight.Bold,
-                lineHeight = 22.sp,
                 maxLines = 2,
                 modifier = Modifier.padding(bottom = 6.dp)
             )
 
             Text(
                 data.description ?: "",
-                fontSize = 12.sp,
-                lineHeight = 14.sp,
+                style = AppTheme.typography.caption1,
                 maxLines = 3,
                 fontWeight = FontWeight.Medium,
                 overflow = TextOverflow.Ellipsis,

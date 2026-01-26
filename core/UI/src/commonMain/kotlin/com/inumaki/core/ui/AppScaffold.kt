@@ -1,7 +1,13 @@
 package com.inumaki.core.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -14,11 +20,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.inumaki.core.ui.components.AppBottomBar
+import com.inumaki.core.ui.components.AppButton
 import com.inumaki.core.ui.components.AppTopBar
 import com.inumaki.core.ui.model.AppConfig
 import com.inumaki.core.ui.model.AppRoute
@@ -79,15 +88,14 @@ fun AppScaffold(
     }
 
     AppTheme() {
-        Scaffold(
-            topBar = { AppTopBar(topConfig, angle.value) },
-            bottomBar = { AppBottomBar(angle.value, appConfig.navController) },
-            containerColor = AppTheme.colors.background,
-            contentColor = AppTheme.colors.fg,
-            modifier = Modifier.fillMaxSize()
-        ) { padding ->
-            Box(Modifier.fillMaxSize()) {
-                // Register all routes
+        if (AppTheme.layout.bottomBarLocation == Alignment.BottomCenter) {
+            Scaffold(
+                topBar = { AppTopBar(topConfig, angle.value) },
+                bottomBar = { AppBottomBar(angle.value, appConfig.navController) },
+                containerColor = AppTheme.colors.background,
+                contentColor = AppTheme.colors.fg,
+                modifier = Modifier.fillMaxSize()
+            ) { padding ->
                 NavHost(
                     navController = appConfig.navController,
                     startDestination = "Discover",
@@ -95,20 +103,43 @@ fun AppScaffold(
                 ) {
                     appConfig.featureEntries.forEach { it.register(this, appConfig.navController, appConfig.navScope) }
                 }
-                // Render last fullscreen
-                // lastFullscreen.value?.let { renderFullscreen(it) }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(AppTheme.colors.background)
+            ) {
+                // AppBottomBar(angle.value, appConfig.navController)
 
-                /*
-                // Render top sheet if any
-                val backStackEntry by appConfig.navController.currentBackStackEntryAsState()
-                val sheetRoute = backStackEntry?.let { entry ->
-                    appConfig.featureEntries.mapNotNull { it.tryCreateRoute(entry) }
-                        .firstOrNull { it.presentationStyle() == PresentationStyle.Sheet }
+
+                Scaffold(
+                    topBar = { AppTopBar(topConfig, angle.value) },
+                    containerColor = AppTheme.colors.background,
+                    contentColor = AppTheme.colors.fg,
+                    modifier = Modifier.fillMaxSize()
+                ) { padding ->
+                    NavHost(
+                        navController = appConfig.navController,
+                        startDestination = "Discover",
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        appConfig.featureEntries.forEach { it.register(this, appConfig.navController, appConfig.navScope) }
+                    }
                 }
 
-                sheetRoute?.let { renderSheet(it) { appConfig.navController.popBackStack() } }
-
-                 */
+                Column(
+                    modifier = Modifier
+                        .align(AppTheme.layout.bottomBarLocation)
+                        .fillMaxHeight()
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    AppButton(
+                        "drawable/plus-solid-full.svg",
+                        angle = angle.value
+                    )
+                }
             }
         }
     }

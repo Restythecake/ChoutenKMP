@@ -13,9 +13,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inumaki.core.ui.model.TopBarConfig
+import com.inumaki.core.ui.theme.AppTheme
 
 
 @Composable
@@ -29,14 +31,18 @@ fun AppTopBar(topBarConfig: TopBarConfig?, angle: Float) {
                         0.0f to Color(0xff0c0c0c),
                         1.0f to Color(0x000c0c0c),
                         start = Offset(0f, 0f),
-                        end = Offset(0f, 200f)
+                        end = Offset(0f, 100f)
                     )
                 )
-                .padding(start = 24.dp, top = 40.dp, end = 24.dp),
+                .padding(
+                    start = AppTheme.layout.screenEdgePadding.calculateLeftPadding(LayoutDirection.Ltr),
+                    top = AppTheme.layout.screenEdgePadding.calculateTopPadding(),
+                    end = AppTheme.layout.screenEdgePadding.calculateRightPadding(LayoutDirection.Ltr)
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(config.title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text(config.title, style = AppTheme.typography.title3, fontWeight = FontWeight.Bold)
 
             config.actions.forEach { action ->
                 AppButton("drawable/${action.icon}", angle)
