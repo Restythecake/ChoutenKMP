@@ -362,7 +362,7 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                        Res.getUri("drawable/plus-solid-full.svg"),
+                        Res.getUri("drawable/magnifying-glass-solid-full.svg"),
                     contentDescription = "",
                     colorFilter = ColorFilter.tint(Color(0xffd3d3d3), BlendMode.SrcIn),
                     modifier = Modifier

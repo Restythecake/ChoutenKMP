@@ -21,7 +21,7 @@ class SettingsEntry: FeatureEntry, UiConfigProvider {
         navController: NavHostController,
         navScope: NavigationScope
     ) {
-        builder.composable<SettingsRoute> { SettingsView() }
+        builder.composable<SettingsRoute> {  }
     }
     override fun getRoute(): AppRoute = SettingsRoute
 

@@ -1,6 +1,7 @@
 package com.inumaki.core.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
@@ -23,13 +24,16 @@ import com.inumaki.core.ui.modifiers.shiningBorder
 import com.inumaki.core.ui.theme.AppTheme
 
 @Composable
-fun AppButton(iconPath: String, angle: Float, modifier: Modifier = Modifier) {
+fun AppButton(iconPath: String, angle: Float, modifier: Modifier = Modifier, background: Color = AppTheme.colors.container, onClick: () -> Unit = {}) {
     Box(
         modifier = modifier
             .size(AppTheme.layout.iconSize)
             .shiningBorder(angle, AppTheme.layout.iconSize.width / 2)
             .clip(RoundedCornerShape(50))
-            .background(AppTheme.colors.container),
+            .background(background)
+            .clickable {
+                onClick()
+            },
     ) {
         AsyncImage(
             Res.getUri(iconPath),

@@ -34,7 +34,7 @@ val LightAppColors = AppColors(
     overlay = Color(0xFFEBEBEB),
     border = Color(0xFFE0E0E0),
     fg = Color(0xFF757575),
-    accent = Color(0xFFFF4081)
+    accent = Color(0xFF6458ED)
 )
 
 val DarkAppColors = AppColors(

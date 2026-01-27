@@ -63,12 +63,13 @@ fun rememberLastFullscreenRoute(
     return lastFullscreen
 }
 
+@Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AppScaffold(
     heading: StateFlow<Float>,
     appConfig: AppConfig,
-    renderFullscreen: @Composable (AppRoute) -> Unit,
-    renderSheet: @Composable (AppRoute, onDismiss: () -> Unit) -> Unit
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
 ) {
     val angle = heading.collectAsState()
     val lastFullscreen = rememberLastFullscreenRoute(appConfig.navController, appConfig.featureEntries)
@@ -86,62 +87,14 @@ fun AppScaffold(
         appConfig.uiConfigProvider.asSequence().mapNotNull { it.topBarConfig(route = route, navController = appConfig.navController) }
             .firstOrNull()
     }
-
-    AppTheme() {
-        if (AppTheme.layout.bottomBarLocation == Alignment.BottomCenter) {
-            Scaffold(
-                topBar = { AppTopBar(topConfig, angle.value) },
-                bottomBar = { AppBottomBar(angle.value, appConfig.navController) },
-                containerColor = AppTheme.colors.background,
-                contentColor = AppTheme.colors.fg,
-                modifier = Modifier.fillMaxSize()
-            ) { padding ->
-                NavHost(
-                    navController = appConfig.navController,
-                    startDestination = "Discover",
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    appConfig.featureEntries.forEach { it.register(this, appConfig.navController, appConfig.navScope) }
-                }
-            }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(AppTheme.colors.background)
-            ) {
-                // AppBottomBar(angle.value, appConfig.navController)
-
-
-                Scaffold(
-                    topBar = { AppTopBar(topConfig, angle.value) },
-                    containerColor = AppTheme.colors.background,
-                    contentColor = AppTheme.colors.fg,
-                    modifier = Modifier.fillMaxSize()
-                ) { padding ->
-                    NavHost(
-                        navController = appConfig.navController,
-                        startDestination = "Discover",
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        appConfig.featureEntries.forEach { it.register(this, appConfig.navController, appConfig.navScope) }
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .align(AppTheme.layout.bottomBarLocation)
-                        .fillMaxHeight()
-                        .padding(horizontal = 12.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    AppButton(
-                        "drawable/plus-solid-full.svg",
-                        angle = angle.value
-                    )
-                }
-            }
-        }
+    Scaffold(
+        topBar = { AppTopBar(topConfig, angle.value) },
+        bottomBar = { AppBottomBar(angle.value, appConfig.navController) },
+        containerColor = AppTheme.colors.background,
+        contentColor = AppTheme.colors.fg,
+        modifier = modifier.fillMaxSize()
+    ) {  padding ->
+        content()
     }
 }
 
