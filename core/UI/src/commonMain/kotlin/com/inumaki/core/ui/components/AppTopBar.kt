@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -27,20 +28,25 @@ import com.inumaki.core.ui.theme.AppTheme
 fun AppTopBar(topBarConfig: TopBarConfig?, angle: Float, modifier: Modifier = Modifier) {
     topBarConfig?.let { config ->
         val statusInsets = WindowInsets.statusBars.asPaddingValues()
+
+        val topPadding = if (statusInsets.calculateTopPadding() > 44.dp)
+            statusInsets.calculateTopPadding()
+        else statusInsets.calculateTopPadding() + AppTheme.layout.screenEdgePadding.calculateTopPadding()
+
         Row(
             modifier = modifier
                 .fillMaxWidth()
                 .background(
                     Brush.linearGradient(
-                        0.0f to Color(0xff0c0c0c),
-                        1.0f to Color(0x000c0c0c),
+                        0.0f to AppTheme.colors.background,
+                        1.0f to Color(0x00FFFFFF and AppTheme.colors.background.toArgb()),
                         start = Offset(0f, 0f),
-                        end = Offset(0f, 100f)
+                        end = Offset(0f, 240f)
                     )
                 )
                 .padding(
                     start = AppTheme.layout.screenEdgePadding.calculateLeftPadding(LayoutDirection.Ltr),
-                    top = AppTheme.layout.screenEdgePadding.calculateTopPadding() + statusInsets.calculateTopPadding(),
+                    top = topPadding,
                     end = AppTheme.layout.screenEdgePadding.calculateRightPadding(LayoutDirection.Ltr)
                 ),
             verticalAlignment = Alignment.CenterVertically,

@@ -31,7 +31,7 @@ data class AppColors(
 val LightAppColors = AppColors(
     background = Color(0xFFF5F5F5),
     container = Color(0xFFFFFFFF),
-    overlay = Color(0xFF212121),
+    overlay = Color(0xFFEBEBEB),
     border = Color(0xFFE0E0E0),
     fg = Color(0xFF757575),
     accent = Color(0xFFFF4081)

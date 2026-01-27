@@ -78,7 +78,7 @@ fun PosterCard(data: PosterData, angle: Float) {
                     .padding(8.dp)
                     .shiningBorder(angle, 12.dp)
                     .clip(RoundedCornerShape(50))
-                    .background(Color(0xff17171A))
+                    .background(AppTheme.colors.container)
                     .padding(horizontal = 8.dp, vertical = 0.dp)
             )
         }

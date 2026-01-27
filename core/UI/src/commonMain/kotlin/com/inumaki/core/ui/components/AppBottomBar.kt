@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -175,8 +176,8 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
             .fillMaxWidth()
             .background(
                 Brush.linearGradient(
-                    0.0f to Color(0x000c0c0c),
-                    1.0f to Color(0xff0c0c0c),
+                    0.0f to Color(0x00FFFFFF and AppTheme.colors.background.toArgb()),
+                    1.0f to AppTheme.colors.background,
                     start = Offset(0f, 100f),
                     end = Offset(0f, 260f)
                 )
@@ -257,7 +258,7 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
                             angle, (barHeight + if (searching) 0.dp else 8.dp) / 2
                         )
                         .clip(RoundedCornerShape(50))
-                        .background(Color(23, 23, 26))
+                        .background(AppTheme.colors.container)
                         .animateContentSize(
                             animationSpec = spring(
                                 dampingRatio = Spring.DampingRatioMediumBouncy,
@@ -276,7 +277,7 @@ fun AppBottomBar(angle: Float, navController: NavHostController) {
                         .width(containerWidth)
                         .height(barHeight)
                         .clip(RoundedCornerShape(50))
-                        .background(Color(0xff272727))
+                        .background(AppTheme.colors.overlay)
                 )
 
                 Row(

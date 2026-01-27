@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.inumaki.core.ui.model.HomeRoute
 import com.inumaki.core.ui.modifiers.shiningBorder
+import com.inumaki.core.ui.theme.AppTheme
 
 
 @Composable
@@ -29,14 +30,13 @@ fun AppImageButton(imageUrl: String, angle: Float, width: Dp, radius: Dp, onClic
             .aspectRatio(1f)
             .shiningBorder(angle, radius)
             .clip(RoundedCornerShape(50))
-            .background(Color(23, 23, 26))
+            .background(AppTheme.colors.container)
             .padding(8.dp)
             .clickable(
                 indication = null,
                 interactionSource = null
             ) {
                 onClick()
-                // showProfile = true
             }
     ) {
         AsyncImage(

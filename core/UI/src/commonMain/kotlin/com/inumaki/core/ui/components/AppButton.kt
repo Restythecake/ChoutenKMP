@@ -29,12 +29,12 @@ fun AppButton(iconPath: String, angle: Float, modifier: Modifier = Modifier) {
             .size(AppTheme.layout.iconSize)
             .shiningBorder(angle, AppTheme.layout.iconSize.width / 2)
             .clip(RoundedCornerShape(50))
-            .background(Color(23, 23, 26)),
+            .background(AppTheme.colors.container),
     ) {
         AsyncImage(
             Res.getUri(iconPath),
             contentDescription = "",
-            colorFilter = ColorFilter.tint(Color(0xffd3d3d3), BlendMode.SrcIn),
+            colorFilter = ColorFilter.tint(AppTheme.colors.fg, BlendMode.SrcIn),
             modifier = Modifier
                 .align(Alignment.Center)
                 .width(AppTheme.layout.iconSize.width)
