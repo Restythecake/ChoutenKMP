@@ -4,8 +4,9 @@ actual object NativeBridge {
     init { System.loadLibrary("relay") }
 
     external fun nativeLoadWasm(bytes: ByteArray)
+    actual external fun initLogger(logger: Any)
 
-    fun load(bytes: ByteArray) {
+    actual fun load(bytes: ByteArray) {
         nativeLoadWasm(bytes)
     }
     actual external fun add(a: Int, b: Int): Int

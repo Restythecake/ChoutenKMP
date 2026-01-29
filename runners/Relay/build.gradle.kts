@@ -6,9 +6,28 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+
+val os = System.getProperty("os.name")
+val arch = System.getProperty("os.arch")
+
+val isLinuxArm = os == "Linux" && (arch == "aarch64" || arch == "arm64")
+val isMac = os == "Mac OS X"
+
 kotlin {
     androidTarget()
     jvm("desktop")
+
+    if (isMac) {
+        listOf(
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = "Relay"
+                isStatic = true
+            }
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -79,7 +98,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
+            path = file("src/main/CMakeLists.txt")
             version = "3.22.1"
         }
     }
