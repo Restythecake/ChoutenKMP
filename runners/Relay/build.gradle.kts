@@ -39,11 +39,48 @@ kotlin {
     }
 }
 
+tasks.register<Exec>("buildRelayDesktop") {
+    workingDir = file(".")
+    commandLine = listOf(
+        "cmake",
+        "-Bbuild/desktop",
+        "-H.",
+        "-DCMAKE_BUILD_TYPE=Debug"
+    )
+    doLast {
+        exec {
+            workingDir = file("build/desktop")
+            commandLine = listOf("cmake", "--build", ".")
+        }
+    }
+}
+
 android {
     namespace = "dev.chouten.runners.relay"
     compileSdk = 34
+    ndkVersion = "27.3.13750724"
 
     defaultConfig {
         minSdk = 26
+
+        ndk {
+            // Only the ABIs you really need for now
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
+
+        externalNativeBuild {
+            cmake {
+                // safer flags
+                arguments += "-DANDROID_STL=c++_shared"
+                cppFlags += "-std=c++17 -fno-limit-debug-info"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 }

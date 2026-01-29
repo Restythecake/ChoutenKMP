@@ -37,6 +37,7 @@ kotlin {
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.1")
 
             api(project(":core:UI"))
+            implementation(project(":runners:Relay"))
         }
 
         androidMain.dependencies {

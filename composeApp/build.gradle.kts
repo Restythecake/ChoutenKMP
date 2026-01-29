@@ -63,6 +63,7 @@ kotlin {
             implementation(project(":features:Repo"))
             implementation(project(":features:Settings"))
 
+            implementation(project(":runners:Relay"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

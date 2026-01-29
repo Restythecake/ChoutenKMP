@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.inumaki.core.ui.theme.AppTheme
+import dev.chouten.runners.relay.RelayLogger
 
 @Composable
 fun HomeView() {
@@ -25,6 +27,11 @@ fun HomeView() {
             Text("Home")
             Text("Width: $width")
             Text("Height: $height")
+
+            Text("Logs:", style = AppTheme.typography.title3)
+            RelayLogger.logs.forEach {
+                Text(it)
+            }
         }
     }
 }

@@ -73,6 +73,7 @@ import com.inumaki.features.home.HomeView
 import com.inumaki.features.repo.RepoView
 import dev.chouten.features.settings.SettingsView
 import dev.chouten.features.settings.SettingsViewModel
+import dev.chouten.runners.relay.NativeBridge
 import kotlinx.coroutines.flow.first
 import kotlin.math.roundToInt
 
